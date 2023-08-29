@@ -1,9 +1,9 @@
 # sqlalchemy-challenge
 ## Before You Begin  
-1. Create a new repository for this project called sqlalchemy-challenge. Do not add this assignment to an existing repository.
+1. Create a new repository for this project called `sqlalchemy-challenge`. Do not add this assignment to an existing repository.
 2. Clone the new repository to your computer.
-3. Inside your local Git repository, create a directory for this Challenge. Use a folder name that corresponds to the Challenge, such as SurfsUp.
-4. Add your Jupyter notebook and app.py to this folder. They’ll contain the main scripts to run for analysis. Also add the Resources folder, which contains the data files you will be using for this challenge.
+3. Inside your local Git repository, create a directory for this Challenge. Use a folder name that corresponds to the Challenge, such as `SurfsUp`.
+4. Add your Jupyter notebook and `app.py` to this folder. They’ll contain the main scripts to run for analysis. Also add the `Resources` folder, which contains the data files you will be using for this challenge.
 5. Push the changes to GitHub or GitLab.  
 ## Files
 Download the following files to help you get started:  
@@ -13,9 +13,9 @@ Congratulations! You've decided to treat yourself to a long holiday vacation in 
 ### Part 1: Analyze and Explore the Climate Data  
 
 In this section, you’ll use Python and SQLAlchemy to do a basic climate analysis and data exploration of your climate database. Specifically, you’ll use SQLAlchemy ORM queries, Pandas, and Matplotlib. To do so, complete the following steps:
-1. Note that you’ll use the provided files (climate_starter.ipynb and hawaii.sqlite) to complete your climate analysis and data exploration.
-2. Use the SQLAlchemy create_engine() function to connect to your SQLite database.
-3. Use the SQLAlchemy automap_base() function to reflect your tables into classes, and then save references to the classes named station and measurement.
+1. Note that you’ll use the provided files (`climate_starter.ipynb` and `hawaii.sqlite`) to complete your climate analysis and data exploration.
+2. Use the SQLAlchemy `create_engine()` function to connect to your SQLite database.
+3. Use the SQLAlchemy `automap_base()` function to reflect your tables into classes, and then save references to the classes named `station` and `measurement`.
 4. Link Python to the database by creating a SQLAlchemy session.
 
 IMPORTANT
@@ -28,7 +28,7 @@ IMPORTANT
 3. Select only the "date" and "prcp" values.
 4. Load the query results into a Pandas DataFrame. Explicitly set the column names.
 5. Sort the DataFrame values by "date".
-6. Plot the results by using the DataFrame plot method.
+6. Plot the results by using the DataFrame `plot` method.
 7. Use Pandas to print the summary statistics for the precipitation data.  
 #### Station Analysis
 1. Design a query to calculate the total number of stations in the dataset.
@@ -39,7 +39,7 @@ IMPORTANT
 4. Design a query to get the previous 12 months of temperature observation (TOBS) data. To do so, complete the following steps:
     - Filter by the station that has the greatest number of observations.
     - Query the previous 12 months of TOBS data for that station.
-    - Plot the results as a histogram with bins=12
+    - Plot the results as a histogram with `bins=12`
 5. Close your session.  
 ### Part 2: Design Your Climate App
 Now that you’ve completed your initial analysis, you’ll design a Flask API based on the queries that you just developed. To do so, use Flask to create your routes as follows:
@@ -58,9 +58,9 @@ Now that you’ve completed your initial analysis, you’ll design a Flask API b
     - Return a JSON list of temperature observations for the previous year.
 5. `/api/v1.0/<start> and /api/v1.0/<start>/<end>`
     - Return a JSON list of the minimum temperature, the average temperature, and the maximum temperature for a specified start or start-end range.
-    - For a specified start, calculate TMIN, TAVG, and TMAX for all the dates greater than or equal to the start date.
-    - For a specified start date and end date, calculate TMIN, TAVG, and TMAX for the dates from the start date to the end date, inclusive.
+    - For a specified start, calculate `TMIN`, `TAVG`, and `TMAX` for all the dates greater than or equal to the start date.
+    - For a specified start date and end date, calculate `TMIN`, `TAVG`, and `TMAX` for the dates from the start date to the end date, inclusive.
 
 ### Hints
 - Join the station and measurement tables for some of the queries.
-- Use the Flask jsonify function to convert your API data to a valid JSON response object.
+- Use the Flask `jsonify` function to convert your API data to a valid JSON response object.
