@@ -12,6 +12,7 @@ import datetime as dt
 #################################################
 
 # create engine to hawaii.sqlite
+
 engine = create_engine("sqlite:///./Resources/hawaii.sqlite")
 
 # reflect an existing database into a new model
@@ -37,30 +38,32 @@ session = Session(engine)
 
 app = Flask(__name__)
 
-
 #################################################
 # Flask Routes
 #################################################
 
-# Homepage
+# Homepage:
 
 @app.route("/")
 def home():
     
     return (f"<h1> <b> Welcome to the climate page <b/></h1>"
             F"<br/>"
-            f"<ul>"
+            f"<ol>"
             f"<strong><h2> Available pages : </h2></strong><br/>"
             f"<h3>/api/v1.0/precipiation </h3><br/>"
             f"<h3>/api/v1.0/stations </h3><br/>"
             f"<h3>/api/v1.0/tobs </h3><br/>"
-            f"<ul>"
+            f"<h3> /api/v1.0/start_date </h3> <br/>"
+            f" <h3> /api/v1.0/start_end_date </h3> <br/>"
+            f"<ol>"
             )
 
-# Precipitation analysis
+# Precipitation analysis:
 
 @app.route("/api/v1.0/precipiation")
 def precipitaion():
+    session = Session(engine)
     previous_year = dt.date(2017,8,23) - dt.timedelta(days=365)
     results = session.query(Measurement.date,Measurement.prcp).\
                 filter(Measurement.date>=previous_year).all()
@@ -83,7 +86,7 @@ def station_names():
     all_names = list(np.ravel(results))
     return jsonify (all_names)
 
-# most-active stations
+# most-active stations:
 
 @app.route("/api/v1.0/tobs")
 def active_stations():
@@ -92,9 +95,30 @@ def active_stations():
     results=session.query(Measurement.tobs).\
         filter(Measurement.station == "USC00519281").\
         filter(Measurement.date>=previous_year).all()
+    session.close()
+    results = list(np.ravel(results))
     return jsonify (results)
     
+# specified tmin, tavg, tmax
+max_min_avg=session.query(func.min(Measurement.tobs),
+                          func.max(Measurement.tobs),
+                          func.avg(Measurement.tobs))
+ 
+# specify start date:
 
+@app.route("/api/v1.0/start_date")
+def start_date():
+    
+    
+    return jsonify ()
+
+# specify start and end date:
+
+@app.route("/api/v1.0/start_end_date")
+def start_end_date():
+    
+    
+    return jsonify()
 
 if __name__ == "__main__":
     app.run(debug=True)
