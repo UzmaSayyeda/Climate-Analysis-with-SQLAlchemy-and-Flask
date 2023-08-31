@@ -100,17 +100,19 @@ def active_stations():
     return jsonify (results)
     
 # specified tmin, tavg, tmax
-max_min_avg=session.query(func.min(Measurement.tobs),
-                          func.max(Measurement.tobs),
-                          func.avg(Measurement.tobs))
+args=[func.min(Measurement.tobs),
+              func.avg(Measurement.tobs),
+              func.max(Measurement.tobs)]
  
-# specify start date:
 
 @app.route("/api/v1.0/start_date")
 def start_date():
-    
-    
-    return jsonify ()
+    if not end:
+        start = dt.datetime.strptime(start,"/%m/%d/%Y")
+        results = session.query(*args).\
+                    filter(Measurement.date >= start).all()
+        temps= list(np.ravel(results))
+    return jsonify (temps)
 
 # specify start and end date:
 
