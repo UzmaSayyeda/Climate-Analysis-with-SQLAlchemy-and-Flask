@@ -1,4 +1,5 @@
 # Import the dependencies.
+
 from flask import Flask, jsonify
 from sqlalchemy import create_engine, func
 from sqlalchemy.orm import Session
@@ -54,8 +55,8 @@ def home():
             f"<li><h3>/api/v1.0/precipiation </h3><br/>"
             f"<li><h3>/api/v1.0/stations </h3><br/>"
             f"<li><h3>/api/v1.0/tobs </h3><br/>"
-            f"<li><h3>/api/v1.0/temp/<start></h3><br/>"
-            f"<li><h3>/api/v1.0/temp/<start>/<end></h3><br/>"
+            f"<li><h3>/api/v1.0/temp/start</h3><br/>"
+            f"<li><h3>/api/v1.0/temp/start/end</h3><br/>"
             f"<ol>"
             )
 
@@ -101,18 +102,6 @@ def active_stations():
     
 
 # Return a JSON list of the TMIN,TAVG, TMAX for a specified start or start-end range.
-
-def start_end_date(start_end_date):
-    # Compute start and end dates
-     start = dt.datetime.strptime(start,"%m%d%Y")
-     end = dt.datetime.strptime(end, "%m%d%Y")
-     
-     results = session.query(*args).filter(Measurement.date >= start).\
-                filter(Measurement.date <= end)
-     
-     temp_start_end = list(np.ravel(results)).all()
-     
-     return jsonify (temp_start_end)
     
 @app.route("/api/v1.0/temp/<start>")
 @app.route("/api/v1.0/temp/<start>/<end>")
@@ -127,10 +116,12 @@ def stats(start=None, end=None):
     if not end:
         
         start = dt.datetime.strptime(start,"%m%d%Y")
+        
         # Compute TMIN, TAVG, TMAX for start date
         results = session.query(*sel).\
                         filter(Measurement.date >= start).all()
         session.close()
+        
         # Unravel and convert to list
         temps = list(np.ravel(results))
         return jsonify (temps)
