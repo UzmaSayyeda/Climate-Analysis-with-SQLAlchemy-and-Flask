@@ -100,13 +100,15 @@ def active_stations():
     return jsonify (results)
     
 
- 
+# Return a JSON list of the TMIN,TAVG, TMAX for a specified start or start-end range.
+
 def start_end_date(start_end_date):
-    
+    # Compute start and end dates
      start = dt.datetime.strptime(start,"%m%d%Y")
      end = dt.datetime.strptime(end, "%m%d%Y")
      
-     results = session.query(*args).filter(Measurement.date >= start).filter(Measurement.date <= end)
+     results = session.query(*args).filter(Measurement.date >= start).\
+                filter(Measurement.date <= end)
      
      temp_start_end = list(np.ravel(results)).all()
      
@@ -116,17 +118,24 @@ def start_end_date(start_end_date):
 @app.route("/api/v1.0/temp/<start>/<end>")
 def stats(start=None, end=None):
     
-    sel = [func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)]
+    # Select statement
+    
+    sel = [func.min(Measurement.tobs), 
+           func.avg(Measurement.tobs), 
+           func.max(Measurement.tobs)]
     
     if not end:
         
         start = dt.datetime.strptime(start,"%m%d%Y")
-        
+        # Compute TMIN, TAVG, TMAX for start date
         results = session.query(*sel).\
                         filter(Measurement.date >= start).all()
         session.close()
+        # Unravel and convert to list
         temps = list(np.ravel(results))
         return jsonify (temps)
+    
+      # Compute TMIN, TAVG, TMAX with start and stop date
     start = dt.datetime.strptime(start, "%m%d%Y")
     end = dt.datetime.strptime(end, "%m%d%Y")
     results = session.query(*sel).\
@@ -135,6 +144,8 @@ def stats(start=None, end=None):
     session.close()
     temps = list(np.ravel(results))
     return jsonify(temps=temps)
+
+# Run the app.
     
 if __name__ == "__main__":
     app.run(debug=True)
